@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
+//#define WINDOW_WIDTH 800
+//#define WINDOW_HEIGHT 600
 
 #define FPS 60
 
@@ -27,7 +27,7 @@ int main(int argc, char *argv[]) {
 
     SDL_Window *window = SDL_CreateWindow("Sort",
                                           SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                          WINDOW_WIDTH, WINDOW_HEIGHT,
+                                          1280, 720,
                                           SDL_WINDOW_RESIZABLE);
 
     if (window == NULL) {
@@ -71,16 +71,19 @@ int main(int argc, char *argv[]) {
             }
         }
 
+        int window_width, window_height;
+        SDL_GetWindowSize(window, &window_width, &window_height);
+        
         SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
         SDL_RenderClear(renderer);
-
+        
         SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
         for (int i = 0; i < n; i++) {
             SDL_Rect rect = {
-                .x = i * (WINDOW_WIDTH / n),
-                .y = (WINDOW_HEIGHT) - (array[i] * (WINDOW_HEIGHT / n)),
-                .w = WINDOW_WIDTH / n,
-                .h = WINDOW_HEIGHT
+                .x = i * (window_width / n),
+                .y = (window_height) - (array[i] * (window_height / n)),
+                .w = window_width / n,
+                .h = window_height
             };
             
             SDL_RenderFillRect(renderer, &rect);
