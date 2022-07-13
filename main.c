@@ -3,11 +3,9 @@
 #include <time.h>
 #include <SDL2/SDL.h>
 
-//#define WINDOW_WIDTH 800
-//#define WINDOW_HEIGHT 600
-
 #define FPS 60
 
+void selection_sort(int *array, int n, int i);
 void shuffle_array(int *array, int n);
 void swap(int *a, int *b);
 
@@ -60,6 +58,7 @@ int main(int argc, char *argv[]) {
     shuffle_array(array, n);
     
     // main loop
+    int i = 0; // number of loops
     int quit = 0;
     while (!quit) {
         int start_tick = SDL_GetTicks();
@@ -93,6 +92,12 @@ int main(int argc, char *argv[]) {
         
         SDL_RenderPresent(renderer);
 
+        // sort array by one step
+        selection_sort(array, n, i);
+        i++;
+
+        SDL_Delay(50);
+        
         if ((1000/FPS) > SDL_GetTicks() - start_tick) {
             SDL_Delay(1000/FPS - (SDL_GetTicks() - start_tick));
         }
@@ -104,6 +109,19 @@ int main(int argc, char *argv[]) {
     SDL_Quit();
     
     return 0;
+}
+
+void selection_sort(int *array, int n, int i) {
+    int j, min;
+    
+    min = i;
+    for (j = i + 1; j < n; j++) {
+        if (array[j] < array[min]) {
+            min = j;
+        }
+    }
+
+    swap(&array[min], &array[i]);
 }
 
 void shuffle_array(int *array, int n) {
@@ -118,3 +136,4 @@ void swap(int *a, int *b) {
     *a = *b;
     *b = temp;
 }
+
