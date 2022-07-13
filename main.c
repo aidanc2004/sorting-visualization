@@ -104,6 +104,8 @@ int main(int argc, char *argv[]) {
     }
 
     // clean up
+    free(array);
+    
     SDL_DestroyRenderer(renderer);
     SDL_DestroyWindow(window);
     SDL_Quit();
