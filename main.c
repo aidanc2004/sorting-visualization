@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include <SDL2/SDL.h>
 
 //#define WINDOW_WIDTH 800
@@ -7,7 +8,12 @@
 
 #define FPS 60
 
+void shuffle_array(int *array, int n);
+void swap(int *a, int *b);
+
 int main(int argc, char *argv[]) {
+    srand(time(0));
+    
     if (argc != 2) {
         fprintf(stderr, "Usage: %s n\n", argv[0]);
         return 1;
@@ -27,7 +33,7 @@ int main(int argc, char *argv[]) {
 
     SDL_Window *window = SDL_CreateWindow("Sort",
                                           SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
-                                          1280, 720,
+                                          800, 600,
                                           SDL_WINDOW_RESIZABLE);
 
     if (window == NULL) {
@@ -45,17 +51,13 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    // allocate and fill array
+    // allocate, fill and shuffle array
     int *array = (int *)malloc(sizeof(int) * n);
     for (int i = 0; i < n; i++) {
         array[i] = i+1;
     }
     
-    // print array
-    /*for (int i = 0; i < n; i++) {
-        printf("%d ", array[i]);
-    }
-    printf("\n");*/
+    shuffle_array(array, n);
     
     // main loop
     int quit = 0;
@@ -102,4 +104,17 @@ int main(int argc, char *argv[]) {
     SDL_Quit();
     
     return 0;
+}
+
+void shuffle_array(int *array, int n) {
+     for (int i = n - 1; i > 0; i--) {
+         int j = rand() % (i + 1);
+         swap(&array[j], &array[i]);
+     }
+}
+
+void swap(int *a, int *b) {
+    int temp = *a;
+    *a = *b;
+    *b = temp;
 }
